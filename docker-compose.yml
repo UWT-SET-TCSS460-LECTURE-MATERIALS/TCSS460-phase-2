@@ -1,0 +1,32 @@
+version: '3.7'
+
+services:
+    ts-node-docker:
+        build:
+            context: .
+            dockerfile: Dockerfile
+            target: base
+        env_file:
+            - .env-docker
+        volumes:
+            - ./src:/home/node/app/src
+            - ./nodemon.json:/home/node/app/nodemon.json
+        container_name: lecture-back-end
+        expose:
+            - '4000'
+        ports:
+            - '4000:4000'
+        command: npm run dev
+
+    db:
+        image: cfb3/tcss460-postgres:latest
+        ports:
+            - 5432:5432
+        restart: always
+        environment:
+            POSTGRES_PASSWORD: ads123
+            POSTGRES_USER: tcss460
+            POSTGRES_DB: tcss460
+        container_name: lecture-db
+        volumes:
+            - ~/apps/postgres:/var/lib/postgresql/data

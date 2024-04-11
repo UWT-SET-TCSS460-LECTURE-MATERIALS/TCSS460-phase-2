@@ -1,0 +1,18 @@
+-- Active: 1710457548247@@127.0.0.1@5432@tcss460@public
+
+CREATE TABLE Account (Account_ID SERIAL PRIMARY KEY,
+                      FirstName VARCHAR(255) NOT NULL,
+		              LastName VARCHAR(255) NOT NULL,
+                      Username VARCHAR(255) NOT NULL UNIQUE,
+                      Email VARCHAR(255) NOT NULL UNIQUE,
+                      Phone VARCHAR(15) NOT NULL UNIQUE,
+                      Account_Role int NOT NULL
+);
+
+DROP TABLE IF EXISTS Account_Credential CASCADE;
+CREATE TABLE Account_Credential (Credential_ID SERIAL PRIMARY KEY,
+                      Account_ID INT NOT NULL,
+                      Salted_Hash VARCHAR(255) NOT NULL,
+                      salt VARCHAR(255),
+                      FOREIGN KEY(Account_ID) REFERENCES Account(Account_ID)
+);

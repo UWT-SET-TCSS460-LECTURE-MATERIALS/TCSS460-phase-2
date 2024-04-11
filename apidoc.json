@@ -1,0 +1,16 @@
+{
+    "name": "TCSS 460 BE Phase 2",
+    "version": "0.1.0",
+    "description": "TCSS 460 Second Node/Express Rest Web API, includes DB and Auth examples",
+    "title": "TCSS 460 Rest Web API",
+    "url": "localhost:4000",
+    "order": [
+        "PostMessage",
+        "GetAllMessages",
+        "GetAllMessagesPri",
+        "GetMessageName",
+        "PutMessage",
+        "DeleteMessagesPri",
+        "DeleteMessage"
+    ]
+}
