@@ -1,5 +1,5 @@
 // express is the framework we're going to use to handle requests
-import express, { Response, Router } from 'express';
+import express, { Request, Response, Router } from 'express';
 import { IJwtRequest } from '../../core/models';
 
 // retrieve the router object from express

@@ -28,7 +28,7 @@ const key = {
 };
 
 /**
- * @api {get} /login Request to sign a user in the system
+ * @api {post} /login Request to sign a user in the system
  * @apiName GetAuth
  * @apiGroup Auth
  *
@@ -78,6 +78,7 @@ signinRouter.post(
                     response.status(500).send({
                         message: 'server error - contact support',
                     });
+                    return;
                 }
 
                 //Retrieve the salt used to create the salted-hash provided from the DB
@@ -97,6 +98,7 @@ signinRouter.post(
                     //credentials match. get a new JWT
                     const accessToken = jwt.sign(
                         {
+                            name: result.rows[0].firstname,
                             role: result.rows[0].account_role,
                             id: result.rows[0].account_id,
                         },

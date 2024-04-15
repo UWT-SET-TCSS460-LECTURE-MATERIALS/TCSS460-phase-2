@@ -112,11 +112,13 @@ registerRouter.post(
     (request: Request, response: Response, next: NextFunction) => {
         if (isValidPhone(request.body.phone)) {
             next();
+            return;
         } else {
             response.status(400).send({
                 message:
                     'Invalid or missing phone number  - please refer to documentation',
             });
+            return;
         }
     },
     (request: Request, response: Response, next: NextFunction) => {
