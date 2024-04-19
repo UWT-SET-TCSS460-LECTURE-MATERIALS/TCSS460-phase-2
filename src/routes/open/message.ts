@@ -79,7 +79,7 @@ messageRouter.post(
     '/',
     mwValidNameMessageBody,
     (request: Request, response: Response, next: NextFunction) => {
-        const priority: string = request.query.priority as string;
+        const priority: string = request.body.priority as string;
         if (
             validationFunctions.isNumberProvided(priority) &&
             parseInt(priority) >= 1 &&

@@ -19,7 +19,7 @@ services:
         command: npm run dev
 
     db:
-        image: cfb3/tcss460-postgres:latest
+        image: postgres:latest
         ports:
             - 5432:5432
         restart: always
@@ -30,3 +30,5 @@ services:
         container_name: lecture-db
         volumes:
             - ~/apps/postgres:/var/lib/postgresql/data
+            - ./data/books.csv:/docker-entrypoint-initdb.d/books.csv
+            - ./data/init.sql:/docker-entrypoint-initdb.d/init.sql
