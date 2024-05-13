@@ -38,7 +38,7 @@ function mwValidNameMessageBody(
 ) {
     if (
         isStringProvided(request.body.name) &&
-        isStringProvided(request.body.message)
+        isStringProvided(request.body.msg)
     ) {
         next();
     } else {
@@ -101,7 +101,7 @@ messageRouter.post(
             'INSERT INTO DEMO(Name, Message, Priority) VALUES ($1, $2, $3) RETURNING *';
         const values = [
             request.body.name,
-            request.body.message,
+            request.body.msg,
             request.body.priority,
         ];
 
@@ -151,7 +151,7 @@ messageRouter.get('/all', (request: Request, response: Response) => {
     pool.query(theQuery)
         .then((result) => {
             response.send({
-                entries: result.rows.map(format),
+                entries: result.rows,
             });
         })
         .catch((error) => {
@@ -192,7 +192,7 @@ messageRouter.get(
             .then((result) => {
                 if (result.rowCount > 0) {
                     response.send({
-                        entries: result.rows.map(format),
+                        entries: result.rows,
                     });
                 } else {
                     response.status(404).send({
