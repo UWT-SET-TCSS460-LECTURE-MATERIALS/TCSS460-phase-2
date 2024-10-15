@@ -21,7 +21,7 @@
         "url": "https://github.com/cfb3/cfb3-tcss4540-labs-23sp"
     },
     "engines": {
-        "node": "18.16.1"
+        "node": "20.17.0"
     },
     "license": "ISC",
     "devDependencies": {
