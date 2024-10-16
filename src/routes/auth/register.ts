@@ -68,7 +68,7 @@ const emailMiddlewareCheck = (
  * @apiDescription Document this route. !**Document the password rules here**!
  * !**Document the role rules here**!
  *
- * @apiName PostAuth
+ * @apiName PostRegister
  * @apiGroup Auth
  *
  * @apiBody {String} firstname a users first name
@@ -143,7 +143,7 @@ registerRouter.post(
     },
     (request: IUserRequest, response: Response, next: NextFunction) => {
         const theQuery =
-            'INSERT INTO Account(firstname, lastname, username, email, phone, create_date, account_role) VALUES ($1, $2, $3, $4, $5, NOW(), $6) RETURNING account_id';
+            'INSERT INTO Account(firstname, lastname, username, email, phone, account_role) VALUES ($1, $2, $3, $4, $5, $6) RETURNING account_id';
         const values = [
             request.body.firstname,
             request.body.lastname,
@@ -152,6 +152,7 @@ registerRouter.post(
             request.body.phone,
             request.body.role,
         ];
+        console.dir({ ...request.body, password: '******' });
         pool.query(theQuery, values)
             .then((result) => {
                 //stash the account_id into the request object to be used in the next function

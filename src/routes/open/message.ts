@@ -38,7 +38,7 @@ function mwValidNameMessageBody(
 ) {
     if (
         isStringProvided(request.body.name) &&
-        isStringProvided(request.body.msg)
+        isStringProvided(request.body.message)
     ) {
         next();
     } else {
@@ -101,7 +101,7 @@ messageRouter.post(
             'INSERT INTO DEMO(Name, Message, Priority) VALUES ($1, $2, $3) RETURNING *';
         const values = [
             request.body.name,
-            request.body.msg,
+            request.body.message,
             request.body.priority,
         ];
 
@@ -135,7 +135,7 @@ messageRouter.post(
 );
 
 /**
- * @api {get} /message Request to all retrieve entries
+ * @api {get} /message/all Request to all retrieve entries
  *
  * @apiDescription Request to retrieve all the entries
  *
@@ -151,7 +151,7 @@ messageRouter.get('/all', (request: Request, response: Response) => {
     pool.query(theQuery)
         .then((result) => {
             response.send({
-                entries: result.rows,
+                entries: result.rows.map(format),
             });
         })
         .catch((error) => {
@@ -165,7 +165,7 @@ messageRouter.get('/all', (request: Request, response: Response) => {
 });
 
 /**
- * @api {get} /message Request to retrieve entries
+ * @api {get} /message Request to retrieve entries by priority
  *
  * @apiDescription Request to retrieve all the entries of <code>priority</code>
  *
@@ -212,7 +212,7 @@ messageRouter.get(
 );
 
 /**
- * @api {get} /message/:name Request to retrieve an entry
+ * @api {get} /message/:name Request to retrieve an entry by name
  *
  * @apiDescription Request to retrieve the complete entry for <code>name</code>.
  * Note this endpoint returns an entry as an object, not a formatted string like the
@@ -306,7 +306,7 @@ messageRouter.put(
 );
 
 /**
- * @api {delete} /message Request to remove entries
+ * @api {delete} /message Request to remove entries by priority
  *
  * @apiDescription Request to remove all entries of <code>priority</code>
  *
@@ -352,7 +352,7 @@ messageRouter.delete(
 );
 
 /**
- * @api {delete} /message/:name Request to remove an entry
+ * @api {delete} /message/:name Request to remove an entry by name
  *
  * @apiDescription Request to remove an entry associated with <code>name</code> in the DB
  *

@@ -29,15 +29,16 @@ const key = {
 
 /**
  * @api {post} /login Request to sign a user in the system
- * @apiName GetAuth
+ * @apiName PostLogin
  * @apiGroup Auth
  *
- * @apiHeader {String} authorization "username:password" uses Basic Auth
+ * @apiBody {String} email a users email
+ * @apiBody {String} password a users password
  *
  * @apiSuccess {String} accessToken JSON Web Token
  * @apiSuccess {number} id unique user id
-
- * @apiError (400: Missing Authorization Header) {String} message "Missing Authorization Header"
+ *
+ * @apiError (400: Missing Parameters) {String} message "Missing required information"
  * @apiError (400: Malformed Authorization Header) {String} message "Malformed Authorization Header"
  * @apiError (404: User Not Found) {String} message "User not found"
  * @apiError (400: Invalid Credentials) {String} message "Credentials did not match"
@@ -58,7 +59,7 @@ signinRouter.post(
         }
     },
     (request: AuthRequest, response: Response) => {
-        const theQuery = `SELECT salted_hash, salt, Account_Credential.account_id, account.email, account.firstname, account.lastname, account.phone, account.username, account.account_role, account.create_date FROM Account_Credential
+        const theQuery = `SELECT salted_hash, salt, Account_Credential.account_id, account.email, account.firstname, account.lastname, account.phone, account.username, account.account_role FROM Account_Credential
                       INNER JOIN Account ON
                       Account_Credential.account_id=Account.account_id 
                       WHERE Account.email=$1`;
