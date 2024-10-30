@@ -22,9 +22,9 @@ export const checkToken = (
             token = token.slice(7, token.length);
         }
 
-        jwt.verify(token, config.secret, (err, decoded: JwtPayload) => {
-            if (err) {
-                return response.status(403).json({
+        jwt.verify(token, config.secret, (error, decoded: JwtPayload) => {
+            if (error) {
+                response.status(403).json({
                     success: false,
                     message: 'Token is not valid',
                 });
@@ -34,7 +34,7 @@ export const checkToken = (
             }
         });
     } else {
-        return response.status(401).json({
+        response.status(401).json({
             success: false,
             message: 'Auth token is not supplied',
         });

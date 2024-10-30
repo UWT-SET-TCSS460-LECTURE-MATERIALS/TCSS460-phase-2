@@ -5,5 +5,4 @@ export interface IUser {
     lastname: string | null;
     username: string | null;
     phone: number | null;
-    createDt?: Date | null;
 }

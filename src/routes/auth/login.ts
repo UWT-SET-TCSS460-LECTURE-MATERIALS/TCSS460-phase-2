@@ -36,12 +36,16 @@ const key = {
  * @apiBody {String} password a users password
  *
  * @apiSuccess {String} accessToken JSON Web Token
- * @apiSuccess {number} id unique user id
+ * @apiSuccess {Object} user a user object
+ * @apiSuccess {string} user.name the first name associated with <code>email</code>
+ * @apiSuccess {string} user.message The message associated with <code>email</code>
+ * @apiSuccess {number} user.priority The priority associated with <code>email</code>
  *
- * @apiError (400: Missing Parameters) {String} message "Missing required information"
- * @apiError (400: Malformed Authorization Header) {String} message "Malformed Authorization Header"
- * @apiError (404: User Not Found) {String} message "User not found"
- * @apiError (400: Invalid Credentials) {String} message "Credentials did not match"
+ * @apiError (400: Missing Parameters) {String} message "Missing required information" when the request
+ * does not supply an email and/or password
+ * @apiError (400: Invalid Credentials) {String} message "Invalid Credentials" when either the
+ * supplied email does not exist in the dataset or the supplied password does not match the
+ * entry in the dataset
  *
  */
 signinRouter.post(
@@ -67,8 +71,9 @@ signinRouter.post(
         pool.query(theQuery, values)
             .then((result) => {
                 if (result.rowCount == 0) {
-                    response.status(404).send({
-                        message: 'User not found',
+                    console.error('User not found');
+                    response.status(400).send({
+                        message: 'Invalid Credentials',
                     });
                     return;
                 } else if (result.rowCount > 1) {
@@ -109,14 +114,24 @@ signinRouter.post(
                         }
                     );
                     //package and send the results
+                    // response.json({
+                    //     accessToken,
+                    //     id: result.rows[0].account_id,
+                    // });
                     response.json({
                         accessToken,
-                        id: result.rows[0].account_id,
+                        user: {
+                            id: result.rows[0].account_id,
+                            email: result.rows[0].email,
+                            name: result.rows[0].firstname,
+                            role: 'Admin',
+                        },
                     });
                 } else {
+                    console.error('Credentials did not match');
                     //credentials dod not match
                     response.status(400).send({
-                        message: 'Credentials did not match',
+                        message: 'Invalid Credentials',
                     });
                 }
             })
