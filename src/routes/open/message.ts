@@ -10,6 +10,11 @@ const isStringProvided = validationFunctions.isStringProvided;
 const format = (resultRow) =>
     `{${resultRow.priority}} - [${resultRow.name}] says: ${resultRow.message}`;
 
+const formatKeep = (resultRow) => ({
+    ...resultRow,
+    formatted: `{${resultRow.priority}} - [${resultRow.name}] says: ${resultRow.message}`,
+});
+
 function mwValidPriorityQuery(
     request: Request,
     response: Response,
@@ -142,12 +147,12 @@ messageRouter.post(
  * @apiName GetAllMessages
  * @apiGroup Message
  *
- * @apiSuccess {String[]} formatted the aggregate of all entries as the following string:
- *      "{<code>priority</code>} - [<code>name</code>] says: <code>message</code>"
  * @apiSuccess {Object[]} entries the message entry objects of all entries
  * @apiSuccess {string} entries.name <code>name</code>
  * @apiSuccess {string} entries.message The message associated with <code>name</code>
  * @apiSuccess {number} entries.priority The priority associated with <code>name</code>
+ * @apiSuccess {string} entries.formatted the aggregate of all entries as the following string:
+ *      "{<code>priority</code>} - [<code>name</code>] says: <code>message</code>"
  */
 messageRouter.get('/all', (request: Request, response: Response) => {
     const theQuery = 'SELECT name, message, priority FROM Demo';
@@ -155,8 +160,7 @@ messageRouter.get('/all', (request: Request, response: Response) => {
     pool.query(theQuery)
         .then((result) => {
             response.send({
-                entries: result.rows,
-                formatted: result.rows.map(format),
+                entries: result.rows.map(formatKeep),
             });
         })
         .catch((error) => {
@@ -179,12 +183,11 @@ messageRouter.get('/all', (request: Request, response: Response) => {
  *
  * @apiQuery {number} priority the priority in which to retrieve all entries
  *
- * @apiSuccess {String[]} formatted the aggregate of all entries with <code>priority</code> as the following string:
- *      "{<code>priority</code>} - [<code>name</code>] says: <code>message</code>"
  * @apiSuccess {Object[]} entries the message entry objects of all entries
  * @apiSuccess {string} entries.name <code>name</code>
  * @apiSuccess {string} entries.message The message associated with <code>name</code>
  * @apiSuccess {number} entries.priority The priority associated with <code>name</code>
+ * @apiSuccess {string} entries.formatted the aggregate of all entries as the following string:
  *
  * @apiError (400: Invalid Priority) {String} message "Invalid or missing Priority  - please refer to documentation"
  * @apiError (404: No messages) {String} message "No Priority <code>priority</code> messages found"
@@ -201,8 +204,7 @@ messageRouter.get(
             .then((result) => {
                 if (result.rowCount > 0) {
                     response.send({
-                        entries: result.rows,
-                        formatted: result.rows.map(format),
+                        entries: result.rows.map(formatKeep),
                     });
                 } else {
                     response.status(404).send({
