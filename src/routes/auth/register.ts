@@ -78,8 +78,12 @@ const emailMiddlewareCheck = (
  * @apiBody {String} role a role for this user [1-5]
  * @apiBody {String} phone a phone number for this user
  *
- * @apiSuccess (Success 201) {string} accessToken a newly created JWT
- * @apiSuccess (Success 201) {number} id unique user id
+ * @apiSuccess {String} accessToken JSON Web Token
+ * @apiSuccess {Object} user a user object
+ * @apiSuccess {string} user.name the first name associated with <code>email</code>
+ * @apiSuccess {string} user.email The email associated with <code>email</code>
+ * @apiSuccess {number} user.role The role associated with <code>email</code>
+ * @apiSuccess {number} user.id The internal user id associated with <code>email</code>
  *
  * @apiError (400: Missing Parameters) {String} message "Missing required information"
  * @apiError (400: Invalid Password) {String} message "Invalid or missing password  - please refer to documentation"
@@ -204,7 +208,13 @@ registerRouter.post(
                 //We successfully added the user!
                 response.status(201).send({
                     accessToken,
-                    id: request.id,
+
+                    user: {
+                        id: request.id,
+                        name: request.body.firstname,
+                        email: request.body.email,
+                        role: 'Admin',
+                    },
                 });
             })
             .catch((error) => {

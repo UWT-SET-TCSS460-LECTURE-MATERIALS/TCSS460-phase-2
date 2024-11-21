@@ -38,8 +38,9 @@ const key = {
  * @apiSuccess {String} accessToken JSON Web Token
  * @apiSuccess {Object} user a user object
  * @apiSuccess {string} user.name the first name associated with <code>email</code>
- * @apiSuccess {string} user.message The message associated with <code>email</code>
- * @apiSuccess {number} user.priority The priority associated with <code>email</code>
+ * @apiSuccess {string} user.email The email associated with <code>email</code>
+ * @apiSuccess {number} user.role The role associated with <code>email</code>
+ * @apiSuccess {number} user.id The internal user id associated with <code>email</code>
  *
  * @apiError (400: Missing Parameters) {String} message "Missing required information" when the request
  * does not supply an email and/or password

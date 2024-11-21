@@ -51,12 +51,6 @@ const isNumberProvided = validationFunctions.isNumberProvided;
  *
  */
 messageRouter.get('/offset', async (request: Request, response: Response) => {
-    const theQuery = `SELECT name, message, priority 
-                        FROM Demo 
-                        ORDER BY DemoID
-                        LIMIT $1
-                        OFFSET $2`;
-
     /*
      * NOTE: Using OFFSET in the query can lead to poor performance on large datasets as
      * the DBMS has to scan all of the results up to the offset to "get" to it.
@@ -75,6 +69,12 @@ messageRouter.get('/offset', async (request: Request, response: Response) => {
         isNumberProvided(request.query.offset) && +request.query.offset >= 0
             ? +request.query.offset
             : 0;
+
+    const theQuery = `SELECT name, message, priority 
+            FROM Demo 
+            ORDER BY DemoID
+            LIMIT $1
+            OFFSET $2`;
 
     const values = [limit, offset];
 
