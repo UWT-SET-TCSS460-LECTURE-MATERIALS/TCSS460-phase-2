@@ -2,6 +2,11 @@
 
 # Compiled output
 /dist
+/build
+
+# evn
+.env
+.env-docker
 
 # Node
 /node_modules

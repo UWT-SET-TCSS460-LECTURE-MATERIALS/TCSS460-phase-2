@@ -172,6 +172,10 @@ registerRouter.post(
                     response.status(400).send({
                         message: 'Email exists',
                     });
+                } else if (error.constraint == 'account_phone_key') {
+                    response.status(400).send({
+                        message: 'Duplicate phone number not allowed',
+                    });
                 } else {
                     //log the error
                     console.error('DB Query error on register');

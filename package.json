@@ -5,6 +5,7 @@
     "main": "dist/app.js",
     "scripts": {
         "start": "NODE_PATH=./build node build/index.js",
+        "postinstall": "tsc",
         "build": "tsc -p .",
         "dev": "nodemon src/index.ts",
         "compile-local": "tsc && node -r dotenv/config build/index.js",
@@ -12,7 +13,8 @@
         "lint": "eslint . --ext .ts",
         "test": "echo \"Error: no test specified\" && exit 1",
         "format:check": "prettier --check .",
-        "format:write": "prettier --write ."
+        "format:write": "prettier --write .",
+        "deploy": "git add . && git commit -m Heroku && git push heroku master"
     },
     "keywords": [],
     "author": "Charles Bryan",
