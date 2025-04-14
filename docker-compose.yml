@@ -1,23 +1,6 @@
 version: '3.7'
 
 services:
-    ts-node-docker:
-        build:
-            context: .
-            dockerfile: Dockerfile
-            target: base
-        env_file:
-            - .env-docker
-        volumes:
-            - ./src:/home/node/app/src
-            - ./nodemon.json:/home/node/app/nodemon.json
-        container_name: lecture-back-end
-        expose:
-            - '4000'
-        ports:
-            - '4000:4000'
-        command: npm run dev
-
     db:
         image: postgres:latest
         ports:

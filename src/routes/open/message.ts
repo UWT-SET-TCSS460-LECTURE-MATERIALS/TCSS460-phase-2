@@ -269,11 +269,11 @@ messageRouter.get('/:name', (request: Request, response: Response) => {
 });
 
 /**
- * @api {put} /message Request to change an entry
+ * @api {patch} /message Request to change an entry
  *
  * @apiDescription Request to replace the message entry in the DB for name
  *
- * @apiName PutMessage
+ * @apiName PatchMessage
  * @apiGroup Message
  *
  * @apiBody {String} name the name entry
@@ -286,7 +286,7 @@ messageRouter.get('/:name', (request: Request, response: Response) => {
  * @apiError (400: Missing Parameters) {String} message "Missing required information" *
  * @apiUse JSONError
  */
-messageRouter.put(
+messageRouter.patch(
     '/',
     mwValidNameMessageBody,
     (request: Request, response: Response, next: NextFunction) => {
