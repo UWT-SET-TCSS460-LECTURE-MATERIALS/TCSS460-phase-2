@@ -10,6 +10,8 @@ const tokenTestRouter: Router = express.Router();
  * @apiName JWT Test
  * @apiGroup JWT Test
  *
+ * @apiHeader {String} Authorization The string "Bearer " + a valid JSON Web Token (JWT).
+ *
  * @apiSuccess {String} message  the string
  *  "Your token is valid and your role is: <code>role</code>"
  *
