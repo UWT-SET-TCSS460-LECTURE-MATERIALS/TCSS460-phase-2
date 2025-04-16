@@ -5,8 +5,7 @@
 /build
 
 # evn
-.env
-.env-docker
+.env*
 
 # Node
 /node_modules
